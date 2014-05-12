@@ -69,7 +69,7 @@ module Rain
         load_config!(CONFIG_FILE_HOMERC, :optional)
 
         zonepaths.each do |path|
-          load_config!("#{path}/rain.yaml")
+          load_config!("#{path}/rain.yaml", :optional)
         end
       end
 
