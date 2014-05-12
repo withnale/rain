@@ -1,0 +1,40 @@
+---
+:NatService:
+  :IsEnabled: true
+  :nat_type: portForwarding
+  :Policy: allowTraffic
+  :NatRule:
+
+  - :Description: external-to-jumpbox-ssh
+    :RuleType: DNAT
+    :IsEnabled: true
+    :Id: 65537 
+    :GatewayNatRule:
+      :Protocol: tcp
+      :OriginalIp: %{public_1}
+      :OriginalPort: 22
+      :TranslatedIp: %{ip_prefix}1.10
+      :TranslatedPort: 22
+
+  - :Description: external-to-jumpbox-80
+    :RuleType: DNAT
+    :IsEnabled: true
+    :Id: 65537 
+    :GatewayNatRule:
+      :Protocol: tcp
+      :OriginalIp: %{public_1}
+      :OriginalPort: 80
+      :TranslatedIp: %{ip_prefix}2.10
+      :TranslatedPort: 80
+
+  - :Description: all-snat-rule
+    :RuleType: SNAT
+    :IsEnabled: true
+    :Id: 65542
+    :GatewayNatRule:
+      :Interface:
+        :name:
+        :href:
+      :OriginalIp: 10.0.0.0/8
+      :TranslatedIp: %{public_1}
+

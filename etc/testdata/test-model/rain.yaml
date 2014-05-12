@@ -1,0 +1,44 @@
+
+:zones:
+  :vdc-zone1:
+    :vcloud:
+      :org: '12-34-5-678901'
+      :vdc: 'INSERT_VDC_NAME_HERE'
+    :variables:
+      :public_1: 1.2.3.4
+      :public_2: 1.2.3.5
+  :vdc-zone2:
+    :vcloud:
+      :org: '12-34-5-678901'
+      :vdc: 'INSERT_VDC_NAME_HERE'
+    :variables:
+      :public_1: 1.2.3.4
+      :public_2: 1.2.3.5
+  :vdc-zone3:
+    :vcloud:
+      :org: '12-34-5-678901'
+      :vdc: 'INSERT_VDC_NAME_HERE'
+    :variables:
+      :public_1: 1.2.3.4
+      :public_2: 1.2.3.5
+
+
+
+
+:envs:
+  :test01:
+    :model: model01
+    :zone: vdc-zone1
+    :variables:
+      :ip_prefix: 10.0.3
+  :test02:
+    :model: model01
+    :zone: vdc-zone2
+    :variables:
+      :ip_prefix: 10.0.2
+  :test03:
+    :model: not_present
+    :zone: vdc-zone2
+    :variables:
+      :ip_prefix: 10.0.2
+

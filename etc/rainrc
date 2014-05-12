@@ -1,0 +1,28 @@
+:config:
+  :zonepath:
+    - '../rain-model'
+
+:implementations:
+  :default:
+    :model: 'default'
+    :provider: 'vcloud'
+  :providers:
+    :vcloud:
+      :class: 'Rain::Providers::Vcloud'
+
+  :modellers:
+    :default:
+       :firewall: 'Rain::Modellers::Yaml::Firewall'
+       :nat:      'Rain::Modellers::Yaml::Nat'
+       :network:  'Rain::Modellers::Xml::Network'
+       :server:   'Rain::Modellers::Yaml::Server'
+    :raindsl:
+       :class: 'Rain::Modellers::RainDSL'
+
+  :providers:
+    :vcloud:
+      :firewall: 'Rain::Providers::VCloud::Firewall'
+      :image:    'Rain::Providers::VCloud::Image'
+      :nat:      'Rain::Providers::VCloud::Nat'
+      :network:  'Rain::Providers::VCloud::Network'
+      :server:   'Rain::Providers::VCloud::Server'

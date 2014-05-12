@@ -1,0 +1,168 @@
+en:
+  rain:
+
+    desc:
+      command:
+
+        _desc: |-
+          Welcome to Rain
+
+          This program is designed to manage VCloud Director environments
+
+          It can interrogate running VDCs to create and delete various objects
+          but it is normally used in conjunction with a model of a given
+          environment, which is can create or audit against to locate
+          differences.
+
+        config:
+          _desc: 'Show config'
+
+          show:
+            _desc: 'Show specific VDC config'
+
+        env:
+          _desc: |-
+            Environment specific settings
+
+          list:
+            _desc: |-
+              List all known environment
+          config:
+            _desc: 'Show environment config info'
+          show:
+            _desc: 'Show specific environment information'
+          model:
+            _desc: 'Show the subcomponent models for the environment'
+          vars:
+            _desc: 'Show variables'
+          create:
+            _desc: 'Create an environment'
+
+        nat:
+          _desc: |-
+            Network Address Translation subcommands
+
+          show:
+            _desc: |-
+               Show live NAT rules
+          diff:
+            _desc: |-
+               Show differences between model and live definitions
+          model:
+            _desc: 'Show differences between model and live definitions'
+          create:
+            _desc: 'Update the NAT rules to match the model'
+
+        network:
+          _desc: |-
+            Network subcommands
+
+          show:
+            _desc: |-
+               Show live networks
+          diff:
+            _desc: |-
+               Show differences between model and live definitions
+          model:
+            _desc: 'Show network model'
+          create:
+            _desc: 'Update the network to match the model'
+
+        firewall:
+          _desc: 'Firewall subcommands'
+
+          show:
+            _desc: 'Show firewall definition'
+          diff:
+            _desc: 'Show differences between model and live definitions'
+          model:
+            _desc: 'Show differences between model and live definitions'
+          create:
+            _desc: 'Create the firewall to match the model'
+
+        server:
+          _desc: 'Server subcommands'
+          show:
+            _desc: 'Show live servers'
+          diff:
+            _desc: 'Show differences between model and live definitions'
+          model:
+            _desc: 'Show model servers'
+          action:
+            _desc: 'Perform multiple actions on servers'
+          create:
+            _desc: 'Create servers'
+          delete:
+            _desc: 'Delete servers'
+          poweron:
+            _desc: 'Poweron servers'
+          poweroff:
+            _desc: 'Poweroff servers'
+
+        zone:
+          _desc: 'Zone subcommands'
+
+          list:
+            _desc: 'List all defined zones'
+
+        image:
+          _desc: 'Machine Image subcommands'
+
+          show:
+            _desc: 'List all the available images'
+
+          upload:
+            _desc: 'Upload image to cloud provider'
+
+
+
+#-------------------------------------------------------------------------------
+# Translations for exception classes
+#-------------------------------------------------------------------------------
+    errors:
+      model_not_found: |-
+        The model '%{model}' cannot be found
+
+      invalidcommand: |-
+        Invalid command111 %{command}
+
+        %{help}
+      helptext: |-
+        %{helptext}
+      nosuchfile: |-
+        File '%{filename}' does not exist or is unreadable
+      errorhelptext: |-
+        %{error}
+        %{helptext}
+      nosuchzone: |-
+        Zone '%{zone}' does not exist
+      no_such_variable: |-
+        Variable '%{variable}' is not defined in environment %{env}.
+        Please ensure this is defined in either the environment or the zone definition
+      nosuchvdc: |-
+        VDC '%{vdcname}' does not exist
+      unauthorized: |-
+        Unauthorized to access VCloud provider with vcloud username '%{vcloud_username}'
+      cli_invalid_options: |-
+        An invalid option was specified. The help for this command
+        is available below.
+
+        %{help}
+      cli_invalid_usage: |-
+        Invalid usage. The help for this command is available below.
+
+        %{help}
+      timeout: |-
+        Timeout reaching backend server %{host}
+
+      no_parameter: |-
+        No parameter given.
+        This command requires a valid parameter of either: %{options}
+
+      invalid_parameter: |-
+        Parameter '%{arg}' not recognised.
+        This command requires a valid parameter of either: %{options}
+
+      no_such_server: |-
+        Server %{server_name} does not exist in environment %{env}
+
