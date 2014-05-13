@@ -1,0 +1,51 @@
+---
+:FirewallService:
+  :IsEnabled: true
+  :DefaultAction: drop
+  :LogDefaultAction: false
+  :FirewallRule:
+
+  - :Description: any-22
+    :Policy: allow
+    :Protocols:
+      :Tcp: true
+    :SourcePort: -1
+    :SourcePortRange: 'any'
+    :SourceIp: external
+    :Port: 22
+    :DestinationPortRange: 22
+    :DestinationIp: %{public_1}
+
+  - :Description: any-80
+    :Policy: allow
+    :Protocols:
+      :Tcp: true
+    :SourcePort: -1
+    :SourcePortRange: 'any'
+    :SourceIp: external
+    :Port: 80
+    :DestinationPortRange: 80
+    :DestinationIp: %{public_1}
+
+  - :Description: internal-all-out
+    :Policy: allow
+    :Protocols:
+      :Any: true
+    :SourcePort: -1
+    :SourcePortRange: 'any'
+    :SourceIp: Internal
+    :Port: -1
+    :DestinationPortRange: 'any'
+    :DestinationIp: External
+
+  - :Description: internal-to-internal
+    :Policy: allow
+    :Protocols:
+      :Any: true
+    :SourcePort: -1
+    :SourcePortRange: 'any'
+    :SourceIp: Internal
+    :Port: -1
+    :DestinationPortRange: 'any'
+    :DestinationIp: Internal
+

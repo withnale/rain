@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OrgVdcNetwork xmlns="http://www.vmware.com/vcloud/v1.5" name="db">
+<Description>Web Network</Description>
+<Configuration>
+    <IpScope>
+        <IsInherited>false</IsInherited>
+        <Gateway>%{ip_prefix}3.1</Gateway>
+        <Netmask>255.255.255.0</Netmask>
+        <Dns1>8.8.8.8</Dns1>
+        <Dns2>8.8.4.4</Dns2>
+        <IpRanges>
+            <IpRange>
+                <StartAddress>%{ip_prefix}3.2</StartAddress>
+                <EndAddress>%{ip_prefix}3.254</EndAddress>
+            </IpRange>
+        </IpRanges>
+    </IpScope>
+    <FenceMode>natRouted</FenceMode>
+</Configuration>
+<EdgeGateway href="https://VCLOUD_API_HOST/api/admin/gateway/VCLOUD_EDGE_GATEWAY_ID"/>
+<IsShared>false</IsShared>
+</OrgVdcNetwork>
