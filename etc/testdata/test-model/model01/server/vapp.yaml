@@ -1,0 +1,41 @@
+---
+  catalog: 'PROD'
+  catalog_item: 'ubuntu-1.0.17'
+  vapps:
+    -
+      name: jump.%{envname}
+      vm:
+        hardware_config:
+          memory: 2048
+          cpu: 1
+        network_connections:
+          - 
+            name: admin
+            ip_address: %{ip_prefix}1.10
+        metadata:
+          role: 'base'
+    -
+      name: web-01.%{envname}
+      vm:
+        hardware_config:
+          memory: 2048
+          cpu: 1
+        network_connections:
+          - 
+            name: web
+            ip_address: %{ip_prefix}2.10
+        metadata:
+          role: 'base'
+    -
+      name: app-01.%{envname}
+      vm:
+        hardware_config:
+          memory: 2048
+          cpu: 1
+        network_connections:
+          - 
+            name: web
+            ip_address: %{ip_prefix}2.20
+        metadata:
+          role: 'base'
+

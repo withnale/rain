@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+require 'bundler/setup'
+require 'rain'
+
+
+Rain::Main.new(ARGV.dup).execute!
+
+
