@@ -215,14 +215,14 @@ module Rain
       error_key(:depends_not_found)
     end
 
-    class DependsNotUnique < RainError
+    class TemplateNotDefined < RainError
       status_code(74)
-      error_key(:depends_not_unique)
+      error_key(:template_not_defined)
     end
 
-    class DeployScriptsMissing < RainError
+    class TemplateNotFound < RainError
       status_code(75)
-      error_key(:deploy_scripts_missing)
+      error_key(:template_not_found)
     end
 
 

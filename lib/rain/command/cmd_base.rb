@@ -217,6 +217,11 @@ module Rain
                   options[:format] = f
                 end
 
+              when :template
+                opts.on("-t", "--template NAME", "Output Template Name") do |f|
+                  options[:template] = f
+                end
+
             end
 
             yield opts, options if block_given?

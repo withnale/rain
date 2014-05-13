@@ -31,7 +31,7 @@ module Rain
             run(command, {}, options, args)
 
           when :model
-            options = defaults_from_optparser(args, [:format, :servers])
+            options = defaults_from_optparser(args, [:format, :servers, :template])
             run(command, {}, options, args)
 
           when :action
@@ -84,7 +84,11 @@ module Rain
             env = get_object_from_param(args.first, :env, [:env])
             action = Rain::Action::Model::ListServer.new(args)
             results = action.execute(env)
-            output(:model, results)
+            if @options[:template]
+              output_to_erb(results, env)
+            else
+              output(:model, results)
+            end
 
           when :create
             env = get_object_from_param(args.first, :env, [:env])
@@ -116,6 +120,30 @@ module Rain
 
 
       end
+
+
+      def output_to_erb(results, env)
+
+        # Check if template exists
+        template_list = Rain::Config.findpath('$.config.templates')
+
+        template = template_list[@options[:template]]
+        unless template
+          raise Rain::Errors::TemplateNotDefined, :template_name => @options[:template]
+        end
+        template_path = File.expand_path(template, Rain::Config.basedir)
+        unless File.exists?(template_path)
+          raise Rain::Errors::TemplateNotFound, :template_name => @options[:template],
+                                                :template_path => template_path
+        end
+        require 'erb'
+        erb = ERB.new(File.read(template), 0, '<>')
+
+        puts erb.result(binding)
+
+      end
+
+
 
       def output(command, results, handle = $stdout)
         diff_output = (handle != $stdout)

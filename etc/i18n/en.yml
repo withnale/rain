@@ -166,3 +166,10 @@ en:
       no_such_server: |-
         Server %{server_name} does not exist in environment %{env}
 
+      template_not_defined: |-
+        Template '%{template_name}' not defined
+
+      template_not_found: |-
+        Template '%{template_name}' not found at %{template_path}
+
+
