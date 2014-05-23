@@ -2,10 +2,13 @@ require 'tempfile'
 require 'rainbow'
 require 'optparse'
 
+require 'rain/util/acorn'
+
 module Rain
   module Command
     class Base
 
+      include Rain::Util::Acorn
       include Rain::Util::Logger
       attr_accessor :args
 
@@ -13,35 +16,13 @@ module Rain
         @command ||= @args.empty? ? nil : @args.shift.to_sym
       end
 
-      def self.internal_commands
-        []
-      end
-
-      def self.children
-        @children
-      end
 
       def initialize(config = {})
         @config = config
         @command_path = []
       end
 
-      def self.set_path(list, arg)
-        @path = list
-        @path << arg
-      end
 
-      def self.path
-        @path || []
-      end
-
-      def self.inherited(subclass)
-        @children ||= {}
-        string = subclass.to_s.match(/(\w+)$/).to_s.downcase.to_sym
-        subclass.set_path(self.path, string)
-        @children[string] = subclass
-        #debug { "New subclass #{self} #{subclass} #{@children.keys.join(',')}" }
-      end
 
       def self.global_options(opts, options = nil)
 
@@ -58,26 +39,6 @@ module Rain
         end
       end
 
-      def get_command(args)
-        command, *rem = *args
-        unless command
-          return nil, []
-        end
-        @command_path = self.class.path + [ command ]
-        return command.to_sym, rem
-      end
-
-
-      def handle_others(args1, prefix, commands, command = nil)
-
-        begin
-          parser = get_valid_options(prefix, commands, {})
-          parser.parse(args1)
-
-        end
-        raise Rain::Errors::InvalidCommand, :command => command, :help => parser if command
-        raise Rain::Errors::ErrorHelpText, :helptext =>parser
-      end
 
       def self.run(args)
         options = {}
@@ -93,41 +54,13 @@ module Rain
         newargs = tmp1 + prefix
         #puts "newargs = #{newargs.inspect}"
         begin
-          parse(newargs)
+          acorn_parse(newargs)
         rescue Rain::Errors::ErrorHelpText => e
           puts e.args[:helptext]
         end
       end
 
-      def self.parse(args)
-        unless @children
-          instance = self.new
-          instance.args = args
-          instance.define(args)
-          return
-        end
-        if @children && args.count > 0 && @children[args.first.to_sym]
-            # Pass control to the underlying class
-            klass = @children[args.first.to_sym]
-            args.shift
-            klass.parse(args)
-        else
-          instance = self.new
-          instance.args = args
-          instance.define(args)
-        end
-      end
 
-
-      def define(args)
-        debug { " cmd_base:define args=[#{args.join(',')}]" }
-        command_path = self.class.path.map{|x| x.to_s}.join('.')
-        list = self.class.children ? self.class.children.keys : self.class.internal_commands
-        #parser =  get_valid_options(command_path, list)
-        handle_others(args, command_path, list)
-        #parser.parse!
-        #raise Rain::Errors::ErrorHelpText, :helptext => text
-      end
 
       def get_valid_options(prefix, commands, options = nil)
         self.class.get_valid_options_internal(prefix, commands, options)
@@ -240,33 +173,19 @@ module Rain
         options
       end
 
-      def defaults(cmd, list)
-        list.each do |param|
-          case param
-            when :servers
-              cmd.flag [:s, :servers],
-                       :desc => "List of Servers", :type => Array
-            when :format
-              cmd.flag [:format],
-                       :desc => "Output format (#{Rain::Util::Format::FORMATTERS.keys.join(',')})",
-                       :must_match => Rain::Util::Format::FORMATTERS,
-                       :default_value => Rain::Util::Format::Table.new
-            when :long
-              cmd.switch [:long],
-                         :desc => 'Long Format'
-            when :all_envs
-              cmd.switch [:all_envs],
-                         :desc => 'Select all environments'
-            when :all_zones
-              cmd.switch [:all_zones],
-                         :desc => 'Select all zones'
-            when :show_label
-              cmd.switch [:show_label],
-                         :desc => 'Show label in tabular output'
 
-          end
+      def handle_others(args1, prefix, commands, command = nil)
+
+        begin
+          parser = get_valid_options(prefix, commands, {})
+          parser.parse(args1)
+
         end
+        raise Rain::Errors::InvalidCommand, :command => command, :help => parser if command
+        raise Rain::Errors::ErrorHelpText, :helptext =>parser
       end
+
+
 
 
       def generate_diff

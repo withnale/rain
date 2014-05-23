@@ -11,12 +11,10 @@ module Rain
 
     class Server < Base
 
+      acorn_handler [:show, :diff, :model, :create, :action, :poweron, :poweroff, :delete] => :acorn_default_handler
 
-      def self.internal_commands
-        [:show, :diff, :model, :create, :action, :poweron, :poweroff, :delete]
-      end
 
-      def define(orig_args)
+      def acorn_default_handler(orig_args)
         command, args = get_command(orig_args)
         options = {}
         debug { "Running command '#{command}' with args #{args.join(',')}" }

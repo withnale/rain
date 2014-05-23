@@ -11,12 +11,10 @@ module Rain
 
     class Network < Base
 
+      acorn_handler [:show, :diff, :model, :create] => :acorn_default_handler
 
-      def self.internal_commands
-        [:show, :diff, :model, :create]
-      end
 
-      def define(orig_args)
+      def acorn_default_handler(orig_args)
         command, args = get_command(orig_args)
         options = {}
         debug { "Running command #{command} with args #{args.join(',')}" }
