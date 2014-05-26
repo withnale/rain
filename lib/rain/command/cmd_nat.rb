@@ -10,11 +10,10 @@ module Rain
 
     class Nat < Base
 
-      def self.internal_commands
-        [:show, :diff, :model, :create]
-      end
+      acorn_handler [:show, :diff, :model, :create] => :acorn_default_handler
 
-      def define(orig_args)
+
+      def acorn_default_handler(orig_args)
         command, args = get_command(orig_args)
         options = {}
         debug { "Running command #{command} with args #{args.join(',')}" }

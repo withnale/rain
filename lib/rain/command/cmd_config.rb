@@ -8,12 +8,10 @@ module Rain
 
     class Config < Base
 
+      acorn_handler [:show] => :acorn_default_handler
 
-      def self.internal_commands
-        [:show]
-      end
 
-      def define(orig_args)
+      def acorn_default_handler(orig_args)
         command, args = get_command(orig_args)
         options = {}
         debug { "Running command #{command} with args #{args.join(',')}" }
@@ -28,23 +26,6 @@ module Rain
           else
             handle_others(orig_args, 'config', self.class.internal_commands, command)
         end
-
-      end
-
-
-      def define(context)
-        super
-
-        @context.desc 'Show specific VDC information'
-        @context.command :show do |sub|
-          sub.action do |global_options, options, args|
-            action = Rain::Action::ShowConfig.new(args)
-            results = action.execute
-            output(:show, results)
-
-          end
-        end
-
 
       end
 

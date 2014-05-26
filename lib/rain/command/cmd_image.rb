@@ -8,12 +8,10 @@ module Rain
 
     class Image < Base
 
+      acorn_handler [:show, :upload] => :acorn_default_handler
 
-      def self.internal_commands
-        [:show, :upload]
-      end
 
-      def define(orig_args)
+      def acorn_default_handler(orig_args)
         command, args = get_command(orig_args)
         options = {}
         debug { "Running command #{command} with args #{args.join(',')}" }

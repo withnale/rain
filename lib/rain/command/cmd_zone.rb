@@ -5,11 +5,10 @@ module Rain
   module Command
     class Zone < Base
 
-      def self.internal_commands
-        [:list]
-      end
+      acorn_handler [:list] => :acorn_default_handler
 
-      def define(orig_args)
+
+      def acorn_default_handler(orig_args)
         command, args = get_command(orig_args)
         options = {}
         debug { "Running command #{command} with args #{args.join(',')}" }

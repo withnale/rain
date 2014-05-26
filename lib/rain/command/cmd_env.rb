@@ -7,11 +7,10 @@ module Rain
 
     class Env < Base
 
-      def self.internal_commands
-        [:list, :config, :show, :model, :vars, :create]
-      end
+      acorn_handler [:list, :config, :show, :model, :vars, :create] => :acorn_default_handler
 
-      def define(orig_args)
+
+      def acorn_default_handler(orig_args)
         command, args = get_command(orig_args)
         options = {}
         debug { "Running command #{command} with args #{args.join(',')}" }
