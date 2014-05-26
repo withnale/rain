@@ -51,7 +51,7 @@ module Rain
           else
             handle_others(orig_args, 'server', self.class.internal_commands, command)
         end
-
+        0
       end
 
 

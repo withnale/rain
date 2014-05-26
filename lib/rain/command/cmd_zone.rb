@@ -22,6 +22,7 @@ module Rain
           else
             handle_others(orig_args, 'zone', self.class.internal_commands, command)
         end
+        0
       end
 
 

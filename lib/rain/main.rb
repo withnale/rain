@@ -18,6 +18,7 @@ module Rain
         retcode = Rain::Command::Base.run(@argv)
       rescue Rain::Errors::HelpText => e
         puts e.message
+        retcode = 0
       rescue Rain::Errors::RainError => e
         $stderr.puts "Rain experienced an error! Details:"
         debug { e.inspect }
