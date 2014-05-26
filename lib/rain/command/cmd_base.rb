@@ -212,6 +212,7 @@ module Rain
           diffcmd = ENV["DIFF"] || '/usr/bin/diff'
           diffopts = "--new-line-format='L %L' --old-line-format='M %L' --unchanged-line-format='  %L'"
           output = `#{diffcmd} #{diffopts} #{model_handle.path} #{live_handle.path}`
+          retcode = $?
         ensure
           model_handle.unlink
           live_handle.unlink
@@ -225,8 +226,9 @@ module Rain
           else
             print str
           end
-        end
 
+        end
+        retcode.exitstatus
       end
 
       def get_object_from_type(param, type, output_type)

@@ -67,7 +67,6 @@ module Rain
 
           current_command = args.first.to_sym
 
-
           if command_method = acorn_instance_command[current_command]
             # 1. if there is an internal map entry pass control to the method
             acorn_call_command_method(command_method, args)
@@ -76,7 +75,7 @@ module Rain
             args.shift
             klass.acorn_parse(args)
           else
-            return acorn_call_command_method(:acorn_default_handler, args)
+            acorn_call_command_method(:acorn_default_handler, args)
           end
         end
 

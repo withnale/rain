@@ -15,7 +15,7 @@ module Rain
         retcode = 0
         Rain::Config.set_base_directory(__FILE__)
         Rain::Util::RainLogger.setup({:debug => true}) if ENV['RAIN_DEBUG']
-        Rain::Command::Base.run(@argv)
+        retcode = Rain::Command::Base.run(@argv)
       rescue Rain::Errors::HelpText => e
         puts e.message
       rescue Rain::Errors::RainError => e
