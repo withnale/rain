@@ -166,8 +166,17 @@ en:
       no_such_server: |-
         Server %{server_name} does not exist in environment %{env}
 
-      template_not_defined: |-
-        Template '%{template_name}' not defined
+      safety_check_failed: |-
+        Protected Zone
+
+          Modification operations on this zone have been protected with a confirm
+          code to ensure that unintentional changes are not performed. This is
+          normally configured for live or other critical environments.
+
+          If you still wish to perform this operation please rerun the command and
+          specify the confirm code as below:
+
+              --confirm-code '%{confirmcode}'
 
       template_not_found: |-
         Template '%{template_name}' not found at %{template_path}

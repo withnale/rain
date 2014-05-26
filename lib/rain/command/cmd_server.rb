@@ -29,11 +29,11 @@ module Rain
             run(command, {}, options, args)
 
           when :model
-            options = defaults_from_optparser(args, [:format, :servers, :template])
+            options = defaults_from_optparser(args, [:format, :servers, :template, :confirmcode])
             run(command, {}, options, args)
 
           when :action
-            options = defaults_from_optparser(args, [:format, :servers]) do |opts, options|
+            options = defaults_from_optparser(args, [:format, :servers, :confirmcode]) do |opts, options|
               action_options = [:create, :delete, :poweroff, :poweron, :show]
               # TODO - Validation of --action broken
               # opts.on("-A", "--action [LIST]", action_options, Array, "List of actions (#{action_options.join(',')})") do |v|
@@ -45,7 +45,7 @@ module Rain
             run(command, {}, options, args)
 
           when :create, :delete, :poweron, :poweroff
-            options = defaults_from_optparser(args, [:format, :servers])
+            options = defaults_from_optparser(args, [:format, :servers, :confirmcode])
             run(command, {}, options, args)
 
           else
@@ -90,11 +90,13 @@ module Rain
 
           when :create
             env = get_object_from_param(args.first, :env, [:env])
+            env.zone.zone_check(@options)
             action = Rain::Action::Real::ManageServer.new(args, options)
             results = action.create(env)
 
           when :delete, :poweron, :poweroff
             env = get_object_from_param(args.first, :env, [:env])
+            env.zone.zone_check(@options)
             action = Rain::Action::Real::ManageServer.new(args, options)
             results = action.execute(action_verb, env)
 

@@ -33,7 +33,7 @@ module Rain
             run(command, {}, options, args)
 
           when :create
-            options = defaults_from_optparser(args)
+            options = defaults_from_optparser(args, [:confirmcode])
             run(command, {}, options, args)
 
           else
@@ -44,40 +44,9 @@ module Rain
       end
 
 
-      def define1(context)
-        super
-
-        @context.desc 'Show firewall definition'
-        @context.command :show do |sub|
-          sub.action do |global_options, options, args|
-            run(sub.name, global_options, options, args)
-          end
-        end
-
-        @context.desc 'Show differences between model and live definitions'
-        @context.command :diff do |sub|
-          sub.action do |global_options, options, args|
-            run(sub.name, global_options, options, args)
-          end
-        end
-
-        @context.desc 'Show differences between model and live definitions'
-        @context.command :model do |sub|
-          sub.action do |global_options, options, args|
-            run(sub.name, global_options, options, args)
-          end
-        end
-
-        @context.desc 'Create the firewall to match the model'
-        @context.command :create do |sub|
-          sub.action do |global_options, options, args|
-            run(sub.name, global_options, options, args)
-          end
-        end
-      end
-
-
       def run(action, global_options, options, args)
+        @options = options
+
         case action
           when :show
             zone    = get_object_from_param(args.first, :zone, [:zone, :env])
@@ -107,11 +76,9 @@ module Rain
 
           when :create
             env     = get_object_from_param(args.first, :env, [:model, :env])
+            env.zone.zone_check(@options)
             action  = Rain::Action::Real::UpdateFirewall.new(args)
             results = action.execute(env)
-          #output(:model, results)
-
-
         end
       end
 

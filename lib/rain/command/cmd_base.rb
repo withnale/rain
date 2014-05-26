@@ -133,6 +133,11 @@ module Rain
                   options[:all_zones] = v
                 end
 
+              when :confirmcode
+                opts.on("-c", "--confirm-code CODE", "Specify a confirm code for protected environments") do |f|
+                  options[:confirmcode] = f
+                end
+
               when :long
                 opts.on("--long", "Long Format") do |v|
                   options[:long] = v

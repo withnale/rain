@@ -210,9 +210,9 @@ module Rain
       error_key(:no_such_unassoc_release)
     end
 
-    class DependsNotFound < RainError
+    class SafetyCheckFailed < RainError
       status_code(73)
-      error_key(:depends_not_found)
+      error_key(:safety_check_failed)
     end
 
     class TemplateNotDefined < RainError

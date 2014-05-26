@@ -37,7 +37,7 @@ module Rain
             run(command, {}, options, args)
 
           when :create
-            options = defaults_from_optparser(args)
+            options = defaults_from_optparser(args, [:confirmcode])
             run(command, {}, options, args)
 
           else
@@ -47,43 +47,6 @@ module Rain
       end
 
 
-      def define1(context)
-        super
-
-        @context.desc 'Show live NAT rules'
-        @context.command :show do |sub|
-          #defaults sub, [:all_envs, :all_zones, :show_label, :format]
-          sub.switch [:only_upstream], :desc => 'Only show entries with upstreams'
-          sub.action do |global_options, options, args|
-            run(sub.name, global_options, options, args)
-          end
-        end
-
-        @context.desc 'Show differences between model and live definitions'
-        @context.command :diff do |sub|
-          sub.action do |global_options, options, args|
-            run(sub.name, global_options, options, args)
-          end
-        end
-
-        @context.desc 'Show differences between model and live definitions'
-        @context.command :model do |sub|
-          action = sub.action
-          #defaults sub, [:all_envs, :show_label, :format]
-          sub.action do |global_options, options, args|
-            run(sub.name, global_options, options, args)
-          end
-        end
-
-        @context.desc 'Create the networks to match the model'
-        @context.command :create do |sub|
-          sub.action do |global_options, options, args|
-            run(sub.name, global_options, options, args)
-          end
-        end
-
-
-      end
 
       def run(action, global_options, options, args)
         @options = options
@@ -126,6 +89,7 @@ module Rain
 
           when :create
             env     = get_object_from_param(args.first, :env, [:model, :env])
+            env.zone.zone_check(@options)
             action  = Rain::Action::Real::UpdateNetwork.new(args)
             results = action.execute(env)
 

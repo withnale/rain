@@ -32,7 +32,7 @@ module Rain
             run(command, {}, options, args)
 
           when :create
-            options = defaults_from_optparser(args)
+            options = defaults_from_optparser(args, [:confirmcode])
             run(command, {}, options, args)
 
           else
@@ -43,42 +43,8 @@ module Rain
 
 
 
-      def define1(context)
-        super
-
-        @context.desc 'Show live NAT rules'
-        @context.command :show do |sub|
-          sub.action do |global_options, options, args|
-            run(sub.name, global_options, options, args)
-          end
-        end
-
-        @context.desc 'Show differences between model and live definitions'
-        @context.command :diff do |sub|
-          sub.action do |global_options, options, args|
-            run(sub.name, global_options, options, args)
-          end
-        end
-
-        @context.desc 'Show differences between model and live definitions'
-        @context.command :model do |sub|
-          sub.action do |global_options, options, args|
-            run(sub.name, global_options, options, args)
-          end
-        end
-
-        @context.desc 'Update the NAT rules to match the model'
-        @context.command :create do |sub|
-          sub.action do |global_options, options, args|
-            run(sub.name, global_options, options, args)
-          end
-        end
-
-
-      end
-
-
       def run(action, global_options, options, args)
+        @options = options
         case action
           when :show
             zone    = get_object_from_param(args.first, :zone, [:zone, :env])
@@ -108,6 +74,7 @@ module Rain
 
           when :create
             env     = get_object_from_param(args.first, :env, [:env])
+            env.zone.zone_check(@options)
             action  = Rain::Action::Real::UpdateNat.new(args)
             results = action.execute(env)
 

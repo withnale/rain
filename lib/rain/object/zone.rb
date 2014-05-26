@@ -21,6 +21,7 @@ module Rain
         @variables = Rain::Util::HashUtil.to_sym(variables)
         @zone_type = data.keys.first
 
+        @confirmcode = data['confirmcode']
         @config = Rain::Config.findpath("$.providers.#{@zone_type}")
         @config.merge!(data[@zone_type])
 
@@ -47,6 +48,11 @@ module Rain
 
       end
 
+      def zone_check(options)
+        # Raise an error if a confirmcode exists and is not provided
+        return if @confirmcode == nil || options[:confirmcode] == @confirmcode
+        raise Rain::Errors::SafetyCheckFailed, :confirmcode => @confirmcode
+      end
 
 
       def self.get(name)
