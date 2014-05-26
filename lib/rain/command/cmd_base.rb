@@ -57,6 +57,7 @@ module Rain
           acorn_parse(newargs)
         rescue Rain::Errors::ErrorHelpText => e
           puts e.args[:helptext]
+          0
         end
       end
 
@@ -189,7 +190,6 @@ module Rain
         begin
           parser = get_valid_options(prefix, commands, {})
           parser.parse(args1)
-
         end
         raise Rain::Errors::InvalidCommand, :command => command, :help => parser if command
         raise Rain::Errors::ErrorHelpText, :helptext =>parser

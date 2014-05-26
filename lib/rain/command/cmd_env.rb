@@ -43,7 +43,7 @@ module Rain
           else
             handle_others(orig_args, 'env', self.class.internal_commands, command)
         end
-
+        0
       end
 
       def define1(context)

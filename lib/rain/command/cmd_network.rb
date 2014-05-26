@@ -30,7 +30,7 @@ module Rain
 
           when :diff
             options = defaults_from_optparser(args, [:format])
-            run(command, {}, options, args)
+             return run(command, {}, options, args)
 
           when :model
             options = defaults_from_optparser(args, [:all_envs, :show_label, :format])
@@ -43,7 +43,7 @@ module Rain
           else
             handle_others(orig_args, 'network', self.class.internal_commands, command)
         end
-
+        0
       end
 
 
@@ -84,8 +84,8 @@ module Rain
               results = action.execute(env)
               puts "Showing model for environment #{env.name}" if envs.count > 1
               output(:model, results, env.name, '')
-              puts
             end
+            puts
 
           when :create
             env     = get_object_from_param(args.first, :env, [:model, :env])
@@ -188,7 +188,7 @@ module Rain
           end
         end
         format.complete
-
+        0
       end
 
 

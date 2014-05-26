@@ -26,7 +26,7 @@ module Rain
 
           when :diff
             options = defaults_from_optparser(args, [:format])
-            run(command, {}, options, args)
+            return run(command, {}, options, args)
 
           when :model
             options = defaults_from_optparser(args, [:format])
@@ -38,9 +38,8 @@ module Rain
 
           else
             handle_others(orig_args, 'firewall', self.class.internal_commands, command)
-
         end
-
+        0
       end
 
 
