@@ -66,20 +66,33 @@ module Rain
         @config = {}
 
         load_config!(CONFIG_FILE_DEFAULTS)
-        load_config!(CONFIG_FILE_HOMERC, :optional)
+        if File.exists?("#{CONFIG_FILE_HOMERC}.gpg")
+          load_config!("#{CONFIG_FILE_HOMERC}.gpg", :optional)
+        else
+          load_config!(CONFIG_FILE_HOMERC, :optional)
+        end
 
         zonepaths.each do |path|
           load_config!("#{path}/rain.yaml", :optional)
         end
       end
 
+      def self.load_from_file(filepath)
+        if  filepath.end_with?('.gpg')
+          require 'gpgme'
+          crypto = GPGME::Crypto.new
+          crypto.decrypt(File.open(filepath)).to_s
+        else
+          File.read(filepath)
+        end
+      end
 
       def self.load_config!(filename = CONFIG_FILE_DEFAULTS, present = nil)
         filepath = File.expand_path(filename, @basedir)
 
         begin
-          Rain::Util::RainLogger.debug {"loading config from #{filename}"}
-          hash = YAML.load_file(filepath)
+          Rain::Util::RainLogger.debug {"loading config from #{filepath}"}
+          hash = YAML::load(self.load_from_file(filepath))
           Rain::Util::RainLogger.debug { hash.pretty_print_inspect }
 
           @config.deep_merge!( hash, DEEP_MERGE_OPTIONS)

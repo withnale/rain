@@ -5,6 +5,7 @@ gem 'awesome_print'
 gem 'jsonpath'
 gem 'rainbow', '~>1.1'
 gem 'simplecov'
+gem 'gpgme'
 
 gem 'rspec'
 gem 'unf'
