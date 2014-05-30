@@ -43,6 +43,10 @@ module Rain
           @acorn_instance_command_map ||= {}
         end
 
+        def acorn_children
+          @acorn_children ||= {}
+        end
+
         def acorn_get_child(command)
           @acorn_children ||= {}
           @acorn_children[command]
@@ -92,7 +96,7 @@ module Rain
         def acorn_default_handler(args)
           debug { " cmd_base:define args=[#{args.join(',')}]" }
           command_path = self.class.acorn_command_path.map{|x| x.to_s}.join('.')
-          list = self.class.children ? self.class.children.keys : self.class.acorn_instance_command.keys
+          list = self.class.acorn_children ? self.class.acorn_children.keys : self.class.acorn_instance_command.keys
           #parser =  get_valid_options(command_path, list)
           handle_others(args, command_path, list)
           #parser.parse!
