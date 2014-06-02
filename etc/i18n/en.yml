@@ -181,4 +181,7 @@ en:
       template_not_found: |-
         Template '%{template_name}' not found at %{template_path}
 
+      no_such_provider: |-
+        The provider '%{provider}' does not exist.
+
 

@@ -23,6 +23,7 @@ module Rain
 
         @confirmcode = data['confirmcode']
         @config = Rain::Config.findpath("$.providers.#{@zone_type}")
+        raise Rain::Errors::NoSuchProvider, :provider => @zone_type if @config.empty?
         @config.merge!(data[@zone_type])
 
         @@collection[@name] = self

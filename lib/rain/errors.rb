@@ -225,6 +225,11 @@ module Rain
       error_key(:template_not_found)
     end
 
+    class NoSuchProvider < RainError
+      status_code(76)
+      error_key(:no_such_provider)
+    end
+
 
 
     class CLIInvalidOptions < RainError
